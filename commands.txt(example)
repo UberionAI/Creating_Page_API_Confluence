@@ -1,0 +1,21 @@
+echo '###HOSTNAME' ; hostname ;
+echo '###OS' ; cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2 | tr -d '"' || true ;
+echo '###VCPU' ; nproc || true ;
+echo '###RAM' ; free -h | awk '/Mem:/{print $2}' || true ;
+echo '###DISK_TOTAL' ; df -h --total | awk '/total/ {print $2}' || true ;
+echo '###DISK_COUNT' ; lsblk | grep -c ' disk' || true ;
+echo '###IFCONFIG' ; grep -E '^\s*iface\s+\S+' /etc/network/interfaces | awk '{print $2}' | while read i; do ip -o -4 addr show $i | awk '{print $2, $4}'; done || true ;
+echo '###ROUTES' ; ip route show || true ;
+echo '###IPTABLES' ; (
+  echo "# === filter ===" ; iptables -t filter -L -n -v --line-numbers ;
+  echo "# === nat ===" ; iptables -t nat -L -n -v --line-numbers ;
+  echo "# === mangle ===" ; iptables -t mangle -L -n -v --line-numbers ;
+  echo "# === raw ===" ; iptables -t raw -L -n -v --line-numbers ;
+  echo "# === security ===" ; iptables -t security -L -n -v --line-numbers
+) || true ;
+echo '###LSBLK' ; lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT || true ;
+echo '###DF' ; df -h || true ;
+echo '###SERVICES_ACTIVE' ; systemctl list-units --type=service --state=running --no-pager --no-legend | head -15 || true ;
+echo '###SERVICES_INACTIVE' ; systemctl list-units --type=service --state=inactive --no-pager --no-legend | head -10 || true ;
+echo '###USERS' ; getent passwd | grep -v '/nologin\|/false' | cut -d: -f1 | head -5 | while read u; do echo "$u: $(id -nG $u)"; done || true ;
+echo '###DATE' ; date '+%F %T %z'

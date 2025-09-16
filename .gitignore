@@ -1,0 +1,25 @@
+.env
+commands.txt
+# Go binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+# Go modules workspace file
+go.work
+go.work.sum
+# IDE/editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+# Logs and temporary files
+*.log
+tmp/
+*.tmp
+# OS-specific files
+.DS_Store
+Thumbs.db
