@@ -203,7 +203,7 @@ func buildDefaultOneLineCommand() string {
 		`echo '###OS' ; cat /etc/os-release | grep PRETTY_NAME | cut -d= -f2 | tr -d '"' || true`,
 		"echo '###VCPU' ; nproc || true",
 		`echo '###RAM' ; free -h | awk '/Mem:/{print $2}' || true`,
-		`echo '###DISK_TOTAL' ; df -h --total | awk '/total/ {print $2}' || true`,
+		`echo '###DISK_TOTAL' ; lsblk -b -d -o SIZE -n | awk '{s+=$1} END{printf "%.0fG\n", s/1024/1024/1024}' || true`,
 		`echo '###DISK_COUNT' ; lsblk | grep -c ' disk' || true`,
 		`echo '###IFCONFIG' ; grep -E '^\s*iface\s+\S+' /etc/network/interfaces | awk '{print $2}' | while read i; do ip -o -4 addr show $i | awk '{print $2, $4}'; done || true`,
 		`echo '###ROUTES' ; ip route show || true`,
