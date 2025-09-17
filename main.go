@@ -92,8 +92,6 @@ func main() {
 		ConfluenceSpace: os.Getenv("CONFLUENCE_SPACE"),
 	}
 
-	fmt.Println(cfg.SSHUsername)
-
 	// Basic validation
 	if cfg.SSHUsername == "" || cfg.SSHPassword == "" || cfg.SSHSudoPassword == "" || cfg.SSHHostname == "" {
 		// Note: user asked to provide hostname in .env and not use VM_ListSSH.txt
