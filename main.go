@@ -92,6 +92,8 @@ func main() {
 		ConfluenceSpace: os.Getenv("CONFLUENCE_SPACE"),
 	}
 
+	fmt.Println(cfg.SSHUsername)
+
 	// Basic validation
 	if cfg.SSHUsername == "" || cfg.SSHPassword == "" || cfg.SSHSudoPassword == "" || cfg.SSHHostname == "" {
 		// Note: user asked to provide hostname in .env and not use VM_ListSSH.txt
@@ -109,6 +111,7 @@ func main() {
 			log.Fatalf("error reading command file: %v", err)
 		}
 		// join lines with ';' keeping them safe
+		//var lines []string
 		lines := []string{}
 		for _, ln := range strings.Split(string(b), "\n") {
 			ln = strings.TrimSpace(ln)
