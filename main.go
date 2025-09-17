@@ -109,6 +109,7 @@ func main() {
 			log.Fatalf("error reading command file: %v", err)
 		}
 		// join lines with ';' keeping them safe
+		//var lines []string
 		lines := []string{}
 		for _, ln := range strings.Split(string(b), "\n") {
 			ln = strings.TrimSpace(ln)
